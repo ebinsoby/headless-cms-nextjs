@@ -1,4 +1,4 @@
-import { defineDocumentType, makeSource } from 'contentlayer/source-files'
+import { defineDocumentType, makeSource } from 'contentlayer/source-files';
 
 const Update = defineDocumentType(() => ({
   name: 'Update',
@@ -7,7 +7,7 @@ const Update = defineDocumentType(() => ({
   fields: {
     title: {
       type: 'string',
-      required: true
+      required: true,
     },
     publishedAt: {
       type: 'string',
@@ -22,11 +22,11 @@ const Update = defineDocumentType(() => ({
     slug: {
       type: 'string',
       resolve: (doc) => doc._raw.flattenedPath.replace(/update\/?/, ''),
-    },    
+    },
   },
-}))
+}));
 
 export default makeSource({
   contentDirPath: 'content',
   documentTypes: [Update],
-})
+});
