@@ -1,5 +1,36 @@
-import { HeroQuery, LogoWallQuery } from '../types';
+import "server-only"
+import { HeroQuery, LogoWallQuery, HeaderNavQuery } from '../types';
 import { contentGqlFetcher } from './fetch';
+
+export const getContentForHeaderNav = async (preview = false) => {
+  const query = `#graphql
+  query NavigationCollection($where: NavigationFilter) {
+  navigationCollection(where: $where) {
+    items {
+      name
+      linksCollection {
+        items {
+          label
+          link
+        }
+      }
+    }
+  }
+}
+`;
+  const data = await contentGqlFetcher<HeaderNavQuery>({
+    query,
+    variables: {
+      where: {
+        name: 'Header',
+      },
+    },
+  });
+  if (!data) {
+    throw new Error('Failed to fetch header nav content');
+  }
+  return data;
+  };
 
 export const getContentForLogoWall = async (preview = false) => {
   const query = `#graphql

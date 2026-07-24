@@ -1,8 +1,11 @@
 import Link from 'next/link';
 import Logo from './logo';
 import MobileMenu from './mobile-menu';
+import { getContentForHeaderNav } from '@/content/queries';
 
-export default function Header() {
+export default async function Header() {
+  const data = await getContentForHeaderNav();
+  const links = data?.navigationCollection.items[0].linksCollection.items;
   return (
     <header className="absolute z-30 w-full">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -16,46 +19,17 @@ export default function Header() {
           <nav className="hidden md:flex md:grow">
             {/* Desktop menu links */}
             <ul className="flex grow flex-wrap items-center justify-center">
-              <li>
-                <Link
-                  className="mx-4 text-sm font-medium text-slate-300 transition duration-150 ease-in-out hover:text-white lg:mx-5"
-                  href="/about"
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="mx-4 text-sm font-medium text-slate-300 transition duration-150 ease-in-out hover:text-white lg:mx-5"
-                  href="/integrations"
-                >
-                  Integrations
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="mx-4 text-sm font-medium text-slate-300 transition duration-150 ease-in-out hover:text-white lg:mx-5"
-                  href="/pricing"
-                >
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="mx-4 text-sm font-medium text-slate-300 transition duration-150 ease-in-out hover:text-white lg:mx-5"
-                  href="/customers"
-                >
-                  Customers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="mx-4 text-sm font-medium text-slate-300 transition duration-150 ease-in-out hover:text-white lg:mx-5"
-                  href="/changelog"
-                >
-                  Changelog
-                </Link>
-              </li>
+              
+              {links.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    className="mx-4 text-sm font-medium text-slate-300 transition duration-150 ease-in-out hover:text-white lg:mx-5"
+                    href={link.link}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
 
