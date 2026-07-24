@@ -26,5 +26,5 @@ export const contentGqlFetcher = async <T>({
     console.error(errors);
     throw new Error('Failed to fetch data from Contentful');
   }
-  return data;
+  return data as T;
 };

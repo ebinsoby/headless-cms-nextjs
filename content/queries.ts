@@ -1,4 +1,32 @@
+import { HeroQuery, LogoWallQuery } from '../types';
 import { contentGqlFetcher } from './fetch';
+
+export const getContentForLogoWall = async (preview = false) => {
+  const query = `#graphql
+  query Asset($where: AssetFilter) {
+  assetCollection(where: $where) {
+    items {
+      width
+      url
+      title
+      height
+    }
+  }
+}`;
+
+  const data = await contentGqlFetcher<LogoWallQuery>({
+    query,
+    variables: {
+      where: {
+        title_contains: 'client',
+      },
+    },
+  });
+  if (!data) {
+    throw new Error('Failed to fetch logo wall content');
+  }
+  return data;
+};
 
 export const getContentForHero = async (preview = false) => {
   const query = `#graphql
@@ -17,5 +45,11 @@ export const getContentForHero = async (preview = false) => {
     }
   }
 }`;
-  const data = await contentGqlFetcher(query, {}, preview);
+  const data = await contentGqlFetcher<HeroQuery>({
+    query,
+  });
+  if (!data) {
+    throw new Error('Failed to fetch hero content');
+  }
+  return data;
 };

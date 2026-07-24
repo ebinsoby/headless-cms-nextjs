@@ -1,8 +1,13 @@
 import Image from 'next/image';
 import Particles from './particles';
 import Illustration from '@/public/images/glow-bottom.svg';
+import { getContentForHero } from '../content/queries';
 
-export default function Hero() {
+export default async function Hero() {
+  const data = await getContentForHero();
+  const content = data?.heroCollection.items[0];
+  const cta1 = content?.callToActionsCollection.items[0];
+  const cta2 = content?.callToActionsCollection.items[1];
   return (
     <section>
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
@@ -35,7 +40,7 @@ export default function Hero() {
                   href="#0"
                 >
                   <span className="relative inline-flex items-center">
-                    API Studio is now in beta{' '}
+                    {content.preTitle}
                     <span className="ml-1 tracking-normal text-purple-500 transition-transform duration-150 ease-in-out group-hover:translate-x-0.5">
                       -&gt;
                     </span>
@@ -47,15 +52,14 @@ export default function Hero() {
               className="h1 bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 bg-clip-text pb-4 text-transparent"
               data-aos="fade-down"
             >
-              The API Security Framework
+              {content.title}
             </h1>
             <p
               className="mb-8 text-lg text-slate-300"
               data-aos="fade-down"
               data-aos-delay="200"
             >
-              Our landing page template works on all devices, so you only have
-              to set it up once, and get beautiful results forever.
+              {content.subtitle}
             </p>
             <div
               className="mx-auto max-w-xs space-y-4 sm:inline-flex sm:max-w-none sm:justify-center sm:space-x-4 sm:space-y-0"
@@ -65,9 +69,9 @@ export default function Hero() {
               <div>
                 <a
                   className="btn group w-full bg-gradient-to-r from-white/80 via-white to-white/80 text-slate-900 transition duration-150 ease-in-out hover:bg-white"
-                  href="#0"
+                  href={cta1.link}
                 >
-                  Get Started{' '}
+                  {cta1.label}
                   <span className="ml-1 tracking-normal text-purple-500 transition-transform duration-150 ease-in-out group-hover:translate-x-0.5">
                     -&gt;
                   </span>
@@ -76,7 +80,7 @@ export default function Hero() {
               <div>
                 <a
                   className="btn w-full bg-slate-900 bg-opacity-25 text-slate-200 transition duration-150 ease-in-out hover:bg-opacity-30 hover:text-white"
-                  href="#0"
+                  href={cta2.link}
                 >
                   <svg
                     className="mr-3 shrink-0 fill-slate-300"
@@ -86,7 +90,7 @@ export default function Hero() {
                   >
                     <path d="m1.999 0 1 2-1 2 2-1 2 1-1-2 1-2-2 1zM11.999 0l1 2-1 2 2-1 2 1-1-2 1-2-2 1zM11.999 10l1 2-1 2 2-1 2 1-1-2 1-2-2 1zM6.292 7.586l2.646-2.647L11.06 7.06 8.413 9.707zM0 13.878l5.586-5.586 2.122 2.121L2.12 16z" />
                   </svg>
-                  <span>Read the docs</span>
+                  <span>{cta2.label}</span>
                 </a>
               </div>
             </div>
