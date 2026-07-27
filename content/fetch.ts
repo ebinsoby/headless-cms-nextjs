@@ -19,6 +19,10 @@ export const contentGqlFetcher = async <T>({
         query,
         variables,
       }),
+      // Always fetch the latest content from Contentful instead of using
+      // Next.js's default build-time cache, so CMS changes (new slugs, edited
+      // copy) are reflected immediately without a redeploy.
+      cache: 'no-store',
     }
   );
   const { data, errors } = await res.json();
