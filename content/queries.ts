@@ -1,6 +1,68 @@
-import "server-only"
-import { HeroQuery, LogoWallQuery, HeaderNavQuery } from '../types';
+import 'server-only';
+import {
+  CustomerPostQuery,
+  HeaderNavQuery,
+  HeroQuery,
+  LogoWallQuery,
+} from '../types';
 import { contentGqlFetcher } from './fetch';
+
+export const getSlugsForPosts = async () => {
+  const query = `#graphql
+  query SlugsForPost{
+  customerPostCollection {
+    items {
+      slug
+    }
+  }
+  }
+  `;
+  const data = await contentGqlFetcher<{
+    customerPostCollection: { items: { slug: string }[] };
+  }>({
+    query,
+  });
+  if (!data) {
+    throw new Error('Failed to fetch slugs for posts');
+  }
+  return data;
+};
+
+export const getContentForCustomerPost = async (slug: string) => {
+  const query = `#graphql
+  query CustomerPostCollection($where: CustomerPostFilter) {
+  customerPostCollection(where: $where) {
+    items {
+      title
+      slug
+      customer {
+        logo {
+          url
+          width
+          height
+          title
+        }
+        name
+      }
+      body {
+        json
+      }
+    }
+  }
+}`;
+  const data = await contentGqlFetcher<CustomerPostQuery>({
+    query,
+    variables: {
+      where: {
+        slug,
+      },
+    },
+  });
+  if (!data) {
+    throw new Error('Failed to fetch customer post content');
+  }
+  return data;
+};
 
 export const getContentForHeaderNav = async (preview = false) => {
   const query = `#graphql
@@ -30,7 +92,7 @@ export const getContentForHeaderNav = async (preview = false) => {
     throw new Error('Failed to fetch header nav content');
   }
   return data;
-  };
+};
 
 export const getContentForLogoWall = async (preview = false) => {
   const query = `#graphql
