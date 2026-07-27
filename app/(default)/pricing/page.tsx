@@ -1,13 +1,13 @@
 export const metadata = {
-  title: 'Pricing - Stellar',
+  title: 'Pricing',
   description: 'Page description',
 };
 
-import PricingSection from './pricing-section';
-import Features from '@/components/features-05';
+import Cta from '@/components/cta';
 import Customers from '@/components/customers';
 import Faqs from '@/components/faqs';
-import Cta from '@/components/cta';
+import Features from '@/components/features-05';
+import PricingSection from './pricing-section';
 
 export default function Pricing() {
   return (

@@ -1,13 +1,13 @@
 export const metadata = {
-  title: 'Changelog - Stellar',
+  title: 'Changelog',
   description: 'Page description',
 };
 
+import Cta from '@/components/cta-03';
+import Illustration from '@/public/images/page-illustration.svg';
 import { allUpdates } from 'contentlayer/generated';
 import Image from 'next/image';
-import Illustration from '@/public/images/page-illustration.svg';
 import PostItem from './post-item';
-import Cta from '@/components/cta-03';
 
 export default function Changelog() {
   // Sort posts by date

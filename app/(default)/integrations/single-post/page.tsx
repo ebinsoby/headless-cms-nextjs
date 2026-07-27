@@ -1,16 +1,16 @@
 export const metadata = {
-  title: 'Integrations Post - Stellar',
+  title: 'Integrations Post',
   description: 'Page description',
 };
 
-import Link from 'next/link';
-import Image from 'next/image';
-import Illustration from '@/public/images/page-illustration.svg';
+import Particles from '@/components/particles';
 import IntegrationImg from '@/public/images/integration-image.png';
 import IntegrationIcon from '@/public/images/integrations-08.svg';
-import Star from '@/public/images/star.svg';
+import Illustration from '@/public/images/page-illustration.svg';
 import Avatar from '@/public/images/post-avatar.jpg';
-import Particles from '@/components/particles';
+import Star from '@/public/images/star.svg';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function IntegrationsSingle() {
   return (

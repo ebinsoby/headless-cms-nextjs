@@ -1,38 +1,68 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# CMS Learning Lab — Contentful + Next.js
 
-## Getting Started
+A personal learning project I built to get hands-on experience integrating a
+**headless CMS (Contentful)** with a modern **Next.js** front end.
 
-First, run the development server:
+I already had production experience with an in-house CMS, and I wanted to
+deepen my understanding of how a third-party, API-driven headless CMS fits into
+a Next.js application. So I built this site end to end: modeling content in
+Contentful, querying it over the GraphQL Content API, and rendering it with the
+Next.js App Router, React Server Components, and TypeScript.
+
+## What I set out to learn
+
+- Designing **content models** in Contentful (Hero, Navigation, Customer, Customer Post, Button component)
+- Fetching content with the **Contentful GraphQL Content API** from server components
+- Rendering Contentful **rich text** with `@contentful/rich-text-react-renderer`
+- Driving reusable UI components (hero, nav, logo wall, customer stories) from CMS data
+- Structuring a **Next.js App Router** project with route groups and typed queries
+- Handling images, environment-based access tokens, and preview vs. published content
+
+## Tech stack
+
+- **Next.js** (App Router) + **React** + **TypeScript**
+- **Contentful** headless CMS (GraphQL Content API)
+- **Tailwind CSS** for styling
+- Deployed on **Vercel**
+
+## Content modeling in Contentful
+
+Content is authored in Contentful and pulled into the app at request time. The
+main content types are:
+
+| Content type       | Purpose                                        |
+| ------------------ | ---------------------------------------------- |
+| `Hero`             | Landing hero: pre-title, title, subtitle, CTAs |
+| `Navigation`       | Header nav menu with labels + links            |
+| `Customer`         | Customer/brand with name and logo asset        |
+| `Customer Post`    | Case-study style post with rich text body      |
+| `Button component` | Reusable button with label + href              |
+
+GraphQL queries for each type live in `content/queries.ts`, and the low-level
+fetcher lives in `content/fetch.ts`.
+
+## Getting started
+
+Create a `.env.local` with your Contentful credentials:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+CONTENTFUL_SPACE_ID=your_space_id
+CONTENTFUL_ACCESS_TOKEN=your_delivery_token
+CONTENTFUL_PREVIEW_ACCESS_TOKEN=your_preview_token
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then run the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Open [http://localhost:3000](http://localhost:3000) to see the result.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Notes
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project started from an open-source Next.js UI template, which I then
+re-wired to be **fully CMS-driven** as the vehicle for learning Contentful +
+Next.js integration. The focus of the exercise was the data layer and CMS
+integration rather than the visual design.

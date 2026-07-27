@@ -1,26 +1,29 @@
 export const metadata = {
-  title: 'Customer Post - Stellar',
+  title: 'Customer Post',
   description: 'Page description',
 };
 
-import Link from 'next/link';
-import Image from 'next/image';
-import Illustration from '@/public/images/page-illustration.svg';
-import CustomerBadge from '@/public/images/customer-badge.svg';
 import Particles from '@/components/particles';
-import RelatedPosts from './related-posts';
 import { getContentForCustomerPost, getSlugsForPosts } from '@/content/queries';
-import {documentToReactComponents} from '@contentful/rich-text-react-renderer';
+import CustomerBadge from '@/public/images/customer-badge.svg';
+import Illustration from '@/public/images/page-illustration.svg';
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import RelatedPosts from './related-posts';
 
 export const generateStaticParams = async () => {
-    const data = await getSlugsForPosts();
-    return data.customerPostCollection.items;
-}
+  const data = await getSlugsForPosts();
+  return data.customerPostCollection.items;
+};
 
-export default async function CustomerSingle({params}) {
+export default async function CustomerSingle({ params }) {
   const data = await getContentForCustomerPost(params.slug);
   const content = data.customerPostCollection.items[0];
-  console.log(content);
+  if (!content) {
+    notFound();
+  }
   return (
     <section className="relative">
       {/* Radial gradient */}
@@ -70,22 +73,22 @@ export default async function CustomerSingle({params}) {
 
                   <header>
                     <h1 className="h2 inline-flex bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 bg-clip-text pb-4 text-transparent">
-                        {content.title}
+                      {content.title}
                     </h1>
                     <div className="mb-8 flex items-center space-x-4 text-sm">
                       <img
                         className="rounded-full"
-                        src="../images/customer-avatar-03.jpg"
+                        src="https://gravatar.com/avatar/7b74b3bd280928b0638cdd1b3b1b40ac?size=200"
                         width="32"
                         height="32"
-                        alt="Customer Avatar 03"
+                        alt="Ebin Soby"
                       />
                       <div>
                         <div className="font-medium text-slate-300">
-                          Becky Taylor
+                          Ebin Soby
                         </div>
                         <div className="text-slate-500">
-                          Product Marketing Manager
+                          Senior Software Engineer
                         </div>
                       </div>
                     </div>

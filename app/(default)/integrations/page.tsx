@@ -1,10 +1,10 @@
 export const metadata = {
-  title: 'Integrations - Stellar',
+  title: 'Integrations',
   description: 'Page description',
 };
 
-import IntegrationsSection from './integrations-section';
 import IntegrationsList from './integrations-list';
+import IntegrationsSection from './integrations-section';
 
 export default function Integrations() {
   return (

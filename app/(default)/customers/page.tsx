@@ -1,14 +1,17 @@
 export const metadata = {
-  title: 'Customers - Stellar',
+  title: 'Customers',
   description: 'Page description',
 };
 
-import Image from 'next/image';
-import Illustration from '@/public/images/page-illustration.svg';
 import Particles from '@/components/particles';
+import { getSlugsForPosts } from '@/content/queries';
+import Illustration from '@/public/images/page-illustration.svg';
+import Image from 'next/image';
 import CustomersList from './customers-list';
 
-export default function Customers() {
+export default async function Customers() {
+  const data = await getSlugsForPosts();
+  const postSlug = data.customerPostCollection.items[0]?.slug ?? '';
   return (
     <>
       <section className="relative">
@@ -57,7 +60,7 @@ export default function Customers() {
               </div>
             </div>
 
-            <CustomersList />
+            <CustomersList postSlug={postSlug} />
           </div>
         </div>
       </section>
