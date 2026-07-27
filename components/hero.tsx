@@ -1,13 +1,19 @@
 import Image from 'next/image';
 import Particles from './particles';
 import Illustration from '@/public/images/glow-bottom.svg';
-import { getContentForHero } from '../content/queries';
+import { getContentForHero, getSlugsForPosts } from '../content/queries';
 
 export default async function Hero() {
   const data = await getContentForHero();
   const content = data?.heroCollection.items[0];
   const cta1 = content?.callToActionsCollection.items[0];
   const cta2 = content?.callToActionsCollection.items[1];
+
+  // Point the "Read the case study" button at the same customer post that the
+  // customer cards link to, using the first available post slug.
+  const slugData = await getSlugsForPosts();
+  const postSlug = slugData.customerPostCollection.items[0]?.slug ?? '';
+  const caseStudyLink = postSlug ? `/customers/${postSlug}` : '/customers';
   return (
     <section>
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
@@ -69,7 +75,9 @@ export default async function Hero() {
               <div>
                 <a
                   className="btn group w-full bg-gradient-to-r from-white/80 via-white to-white/80 text-slate-900 transition duration-150 ease-in-out hover:bg-white"
-                  href={cta1.link}
+                  href="https://www.loom.com/share/6147dcc7f21148c7b60183334683274a"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {cta1.label}
                   <span className="ml-1 tracking-normal text-purple-500 transition-transform duration-150 ease-in-out group-hover:translate-x-0.5">
@@ -80,7 +88,7 @@ export default async function Hero() {
               <div>
                 <a
                   className="btn w-full bg-slate-900 bg-opacity-25 text-slate-200 transition duration-150 ease-in-out hover:bg-opacity-30 hover:text-white"
-                  href={cta2.link}
+                  href={caseStudyLink}
                 >
                   <svg
                     className="mr-3 shrink-0 fill-slate-300"
